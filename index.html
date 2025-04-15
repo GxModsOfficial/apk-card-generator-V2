@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>APK Card Generator - GxMods</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 400px;
+      background: #1e1e1e;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    label, input, textarea, button {
+      display: block;
+      margin: 10px 0;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #fff;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #00ffe0;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>APK Card Generator - GxMods</h1>
+
+    <label>Nama Aplikasi</label>
+    <input type="text" id="appName" value="AnimePlay">
+
+    <label>Developer</label>
+    <input type="text" id="developer" value="GxMods">
+
+    <label>Icon URL</label>
+    <input type="text" id="iconUrl" value="https://play-lh.googleusercontent.com/9voKra-kI9N26HUl_n1WdvAjwtvnCjpzCM-5u-cBnk3xdwJR8h1M-uYHwNNREHFoeMw=w240-h480-rw">
+
+    <label>Deskripsi</label>
+    <textarea id="description">AnimePlay adalah sebuah aplikasi streaming anime Indonesia dan donghua indonesia yang menawarkan ribuan episode anime dan donghua terbaru dan klasik dari berbagai genre. Aplikasi ini didesain dengan tampilan yang user-friendly dan mudah digunakan, <b>DAN PASTINYA UDAH PREMIUM</b></textarea>
+
+    <label>Versi APK</label>
+    <input type="text" id="version" value="1.1.4">
+
+    <label>Ukuran APK</label>
+    <input type="text" id="size" value="14MB">
+
+    <label>Update Terakhir</label>
+    <input type="text" id="updated" value="10 Agu 2024">
+
+    <label>Rating</label>
+    <input type="text" id="rating" value="4,9">
+
+    <label>Jumlah Ulasan</label>
+    <input type="text" id="reviews" value="60,9 rb">
+
+    <label>Jumlah Unduhan</label>
+    <input type="text" id="downloads" value="1 jt+">
+
+    <label>Fitur MOD</label>
+    <input type="text" id="modFeatures" value="Premium Unlock,NO Ads">
+
+    <label>Link Download MOD</label>
+    <input type="text" id="downloadUrl" value="https://www.mediafire.com/file/yewzkijuzscap6k/AnimePlay_1.1.4.apk/file">
+
+    <label>Link Screenshot (pisahkan dengan koma)</label>
+    <textarea id="screenshots">https://i.imgur.com/Ac50bq5.jpeg,https://i.imgur.com/ZWgYMNx.png</textarea>
+
+    <button onclick="generateCard()">Generate HTML</button>
+
+    <textarea id="output" readonly></textarea>
+  </div>
+
+  <script>
+    function generateCard() {
+      const appName = document.getElementById("appName").value;
+      const developer = document.getElementById("developer").value;
+      const iconUrl = document.getElementById("iconUrl").value;
+      const description = document.getElementById("description").value;
+      const version = document.getElementById("version").value;
+      const size = document.getElementById("size").value;
+      const updated = document.getElementById("updated").value;
+      const rating = document.getElementById("rating").value;
+      const reviews = document.getElementById("reviews").value;
+      const downloads = document.getElementById("downloads").value;
+      const modFeatures = document.getElementById("modFeatures").value.split(",");
+      const downloadUrl = document.getElementById("downloadUrl").value;
+      const screenshots = document.getElementById("screenshots").value.split(",");
+
+      const modFeatureHtml = modFeatures.map(f => `<span>${f.trim()}</span>`).join("");
+      const screenshotHtml = screenshots.map(src => `<img alt="Screenshot" loading="lazy" src="${src.trim()}" />`).join("\n");
+
+      const output = `
+<!-- BEGIN APK CARD GENERATED -->
+<div class="apk-post-card">
+  <div class="apk-header">
+    <img alt="App Icon" class="apk-icon" src="${iconUrl}" />
+    <div class="apk-title-area">
+      <div class="apk-title">${appName} <img alt="Verified" class="verified-icon" src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" /></div>
+      <div class="apk-developer">by <a href="#" style="color: #4fc3f7; text-decoration: none;">${developer}</a></div>
+    </div>
+  </div>
+
+  <div class="stat-box">
+    <div class="stat-item"><div class="stat-value">${rating}</div><div class="stat-label">Rating</div></div>
+    <div class="stat-item"><div class="stat-value">${reviews}</div><div class="stat-label">Ulasan</div></div>
+    <div class="stat-item"><div class="stat-value">${downloads}</div><div class="stat-label">Unduhan</div></div>
+  </div>
+
+  <marquee scrollamount="6" style="background:#212121; color:#ffeb3b; padding:10px; font-size:15px;">
+    📢 PERHATIAN! Jangan langsung klik download! Baca info MOD & panduan instalasi untuk menghindari masalah!
+  </marquee>
+
+  <div class="apk-section-title">Deskripsi</div>
+  <div class="apk-description">${description}</div>
+
+  <div class="apk-section-title">Screenshot</div>
+  <div class="apk-screenshots">${screenshotHtml}</div>
+
+  <div class="apk-section-title"><b>Info APK</b></div>
+  <div class="apk-info">
+    <span>Versi: ${version}</span><span>${size}</span><span>${updated}</span><span>Support ALL Devices</span>
+  </div>
+
+  <div class="apk-section-title"><b>Feature MOD</b></div>
+  <div class="apk-info">${modFeatureHtml}</div>
+
+  <div class="apk-buttons">
+    <a class="download-button" href="#" onclick="startDownload(event, '${downloadUrl}')">
+      <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+      <span>Download MOD APK</span>
+      <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+    </a>
+    <div class="spinner-area" style="display: none;">
+      <div class="spinner"></div>
+      <div class="downloading-text">Mengunduh file…</div>
+    </div>
+  </div>
+</div>
+<!-- END APK CARD -->
+      `;
+
+      document.getElementById("output").value = output.trim();
+    }
+  </script>
+</body>
+</html>
