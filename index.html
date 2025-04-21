@@ -78,6 +78,50 @@
       <button type="button" onclick="copyToClipboard()" style="padding:12px 24px;background:#4fc3f7;color:#000;font-weight:bold;border:none;border-radius:8px;cursor:pointer;transition:.3s;">📋 Salin</button>
     </div>
   </form>
+<style>
+  .blink {
+    animation: slide-up 1s ease-out, smooth-blink 2.5s ease-in-out infinite, bounce 1s ease-in-out 1;
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 0;
+    position: relative;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 15px;
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes smooth-blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+</style>
+
+<div class="blink">
+  🚨 Jika link rusak, <a href="https://t.me/GxModsbot" target="_blank" rel="noopener noreferrer" style="color:#4fc3f7;text-decoration:underline;">hubungi saya di Telegram</a>.
+</div>
 
   <h3 style="margin-top:32px;color:#4fc3f7;font-size:1.2rem;">📄 Hasil Kode HTML:</h3>
   <textarea id="outputHTML" style="width:100%;height:600px;margin-top:10px;padding:14px;background:#121212;color:#00ffe0;font-family:monospace;border:none;border-radius:12px;"></textarea>
@@ -138,20 +182,58 @@ function generateAPKCard() {
   <div class="apk-section-title">Screenshot</div>
   <div class="apk-screenshots">${screenshotHTML}</div>
 
-  <div class="apk-section-title">Fitur MOD</div>
-  <div class="apk-mod-features">${modHTML}</div>
+  <div class="apk-section-title"><b>Info APK</b></div>
+  <div class="apk-info">
+    <span>Versi: ${appVersion}</span>
+    <span>Ukuran: ${appSize}</span>
+    <span>Update: ${appDate}</span>
+    <span>Support ALL Devices</span>
+  </div>
 
-  <a href="${downloadLink}" target="_blank" class="apk-download-btn" style="display:block;text-align:center;padding:12px;margin-top:20px;background:#00ffe0;color:#000;border-radius:10px;text-decoration:none;cursor:pointer;">🚀 Download APK</a>
+  <div class="apk-section-title"><b>Fitur MOD</b></div>
+  <div class="apk-tags">${modHTML}</div>
+
+  <div class="apk-buttons">
+    <a class="download-button" href="#" onclick="startDownload(event, '${downloadLink}')">
+      <svg fill="none" height="20" stroke="currentColor" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+      <span>Download MOD APK</span>
+    </a>
+    <div class="spinner-area">
+      <div class="spinner"></div>
+      <div class="downloading-text">Mengunduh file…</div>
+    </div>
+  </div>
 </div>
-<!-- END APK CARD GENERATED -->`;
+<!-- END APK CARD -->`;
 
   document.getElementById("outputHTML").value = htmlOutput;
 }
 
 function copyToClipboard() {
-  const textArea = document.getElementById("outputHTML");
-  textArea.select();
+  const output = document.getElementById("outputHTML");
+  output.select();
+  output.setSelectionRange(0, 99999);
   document.execCommand("copy");
   alert("Kode HTML telah disalin!");
 }
+
+// Fungsi menyimpan semua input ke localStorage saat diubah
+document.querySelectorAll("#apkCardForm input, #apkCardForm textarea").forEach(input => {
+  input.addEventListener("input", () => {
+    localStorage.setItem(input.id, input.value);
+  });
+});
+
+// Fungsi untuk memuat kembali data dari localStorage saat halaman dibuka
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#apkCardForm input, #apkCardForm textarea").forEach(input => {
+    const savedValue = localStorage.getItem(input.id);
+    if (savedValue !== null) {
+      input.value = savedValue;
+    }
+  });
+});
+
 </script>
